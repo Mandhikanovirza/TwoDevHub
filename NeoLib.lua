@@ -7,6 +7,8 @@ function NeoLib:MakeWindow(options)
     window.saveConfig = options.SaveConfig or false
     window.configFolder = options.ConfigFolder or "NeoConfig"
 
+    window.tabs = {}
+
     function window:MakeTab(tabOptions)
         local tab = {}
         tab.name = tabOptions.Name or "Tab"
@@ -65,11 +67,26 @@ function NeoLib:MakeWindow(options)
             table.insert(tab.elements, colorPicker)
         end
 
+        function tab:AddTextbox(textboxOptions)
+            local textbox = {}
+            textbox.name = textboxOptions.Name or "Textbox"
+            textbox.default = textboxOptions.Default or ""
+            textbox.callback = textboxOptions.Callback or function() end
+            table.insert(tab.elements, textbox)
+        end
+
+        function tab:AddKeybind(keybindOptions)
+            local keybind = {}
+            keybind.name = keybindOptions.Name or "Keybind"
+            keybind.default = keybindOptions.Default or Enum.KeyCode.None
+            keybind.callback = keybindOptions.Callback or function() end
+            table.insert(tab.elements, keybind)
+        end
+
         table.insert(window.tabs, tab)
         return tab
     end
 
-    window.tabs = {}
     return window
 end
 
